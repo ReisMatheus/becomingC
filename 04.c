@@ -2,7 +2,7 @@
 #include<stdlib.h>
 
 int* uniao(int *v1, int n1, int *v2, int n2){
-	int *v3 = (int *) calloc(n1+n2, (sizeof(int)));
+	int *v3 = (int *) malloc(n1+n2 * (sizeof(int)));
 
 	for(int i=0;i<n1-1;i++){
 		*(v3+i) = *(v1+i);
