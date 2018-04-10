@@ -31,33 +31,40 @@ void push(struct tp_pilha *p, int tamanho){
 		return;
 	}
 	else{
-		printf("Codigo do produto: ");
-		int cod;
-		scanf("%d", &cod);
-		p->info[p->topo].cod = cod;
-		printf("\nNome do produto: ");
-		char nome[TAM];
-		scanf("%s", nome);
-		strcpy(&p->info[p->topo].nome[TAM], nome);
-		printf("\nPreco do %s: ", nome);
-		float preco;
-		scanf("%f", &preco);
-		p->info[p->topo].preco = preco;
+		for(int i=0; i<=tamanho-1; i++){
+			printf("Codigo do produto: ");
+			int cod;
+			scanf("%d", &cod);
+			p->info[p->topo].cod = cod;
+			printf("\nNome do produto: ");
+			char nome[TAM];
+			scanf("%s", nome);
+			strcpy(&p->info[p->topo].nome[p->topo], nome);
+			printf("\nPreco do %s: ", nome);
+			float preco;
+			scanf("%f", &preco);
+			p->info[p->topo].preco = preco;
 
-		printf("\nAdicionado com sucesso\n");
-		p->topo = ++p->topo;
-		return;
-	}
+			printf("\nAdicionado com sucesso\n");
+			p->topo = ++p->topo;
+			if(p->topo>=tamanho){
+				break;
+			}
+			printf("(%d) para sair\n(0) para continuar\n", tamanho);
+			scanf("%d", &i);
+		}
+		return;	
+	}	
 }
 
 int emptyStack(){
 	
 }
-int showStack(struct tp_pilha *p, int tamanho){
+void showStack(struct tp_pilha *p, int tamanho){
 	for(int i=p->topo; i>=0; i--){
-		printf("Codigo do produto: %d\n", p->info->cod);
-		printf("Nome do Produto: %s\n", p->info->nome);
-		printf("Preco do Produto: %.2f\n", p->info->preco);
+		printf("Codigo: %d\n", p->info[i].cod);
+		printf("Nome: %s\n", p->info[i].nome);
+		printf("Preco: %.2f\n", p->info[i].preco);
 	}
 }
 
