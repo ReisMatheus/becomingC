@@ -26,7 +26,7 @@ int pop(){
 }
 
 void push(struct tp_pilha *p, int tamanho){
-	if(p->topo > tamanho-1){
+	if(p->topo >= tamanho-1){
 		printf("Pilha cheia\n");
 		return;
 	}
@@ -34,15 +34,15 @@ void push(struct tp_pilha *p, int tamanho){
 		printf("Codigo do produto: ");
 		int cod;
 		scanf("%d", &cod);
-		p->info[p.topo]->cod = cod;
+		p->info[p->topo].cod = cod;
 		printf("\nNome do produto: ");
 		char nome[TAM];
 		scanf("%s", nome);
-		strcpy(&p->info[p.topo]->nome[p.topo], nome);
+		strcpy(&p->info[p->topo].nome[TAM], nome);
 		printf("\nPreco do %s: ", nome);
 		float preco;
 		scanf("%f", &preco);
-		p->info[p.topo]->preco = preco;
+		p->info[p->topo].preco = preco;
 
 		printf("\nAdicionado com sucesso\n");
 		p->topo = ++p->topo;
@@ -54,19 +54,23 @@ int emptyStack(){
 	
 }
 int showStack(struct tp_pilha *p, int tamanho){
-	for(int i=p; p!=NULL; p=p){
-		printf("Codigo: %d\n", p->info->cod);
-		printf("Nome: %s\n", p->info->nome);
-		printf("Preco: %.2f\n", p->info->preco);
+	for(int i=p->topo; i>=0; i--){
+		printf("Codigo do produto: %d\n", p->info->cod);
+		printf("Nome do Produto: %s\n", p->info->nome);
+		printf("Preco do Produto: %.2f\n", p->info->preco);
 	}
 }
 
 void main(void){
-	struct tp_pilha *ptPilha;
-	ptPilha->topo = -1;
+
 	printf("Quantos produtos deseja cadastrar?\n");
 	int tamanho;
 	scanf("%d", &tamanho);
+
+	struct tp_pilha *ptPilha;
+	ptPilha = (struct tp_pilha*) malloc(sizeof(struct tp_pilha));
+	ptPilha->topo = -1;
+
 	cria(ptPilha, tamanho);
 	int sair = 1;
 
