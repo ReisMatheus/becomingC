@@ -21,10 +21,12 @@ void cria(struct tp_pilha *p, int tamanho){//função que reserva memória para 
 	p->topo = -1;
 }
 
+//Retira um Elemento da Pilha
 int pop(){
 	
 }
 
+//Adiciona Elemento dentro da Pilha
 void push(struct tp_pilha *p, int tamanho){
 	if(p->topo >= tamanho-1){
 		printf("Pilha cheia\n");
@@ -32,7 +34,6 @@ void push(struct tp_pilha *p, int tamanho){
 	}
 	else{
 		for(int i=0; i<=tamanho-1; i++){
-			p->topo++;
 			
 			printf("Codigo do produto: ");
 			int cod;
@@ -51,6 +52,8 @@ void push(struct tp_pilha *p, int tamanho){
 			strcpy(p->info[p->topo].nome, nome);
 			p->info[p->topo].preco = preco;
 
+			p->topo++;
+
 			printf("\nAdicionado com sucesso\n");
 
 			if(p->topo>=tamanho){
@@ -63,15 +66,18 @@ void push(struct tp_pilha *p, int tamanho){
 	}	
 }
 
+//Esvazia a Pilha por completo
 int emptyStack(){
 	
 }
+
+//Mostra todos os Elementos Validos da Pilha
 void showStack(struct tp_pilha *p, int tamanho){
 	int i;
 	for(i=p->topo; i>=0; i--){
-		printf("Codigo: %d\n", p->info[i].cod);
-		printf("Nome: %s\n", p->info[i].nome);
-		printf("Preco: %.2f\n", p->info[i].preco);
+		printf("Codigo: %d\n", p->info[i-1].cod);
+		printf("Nome: %s\n", p->info[i-1].nome);
+		printf("Preco: %.2f\n", p->info[i-1].preco);
 	}
 }
 
@@ -81,6 +87,7 @@ void main(void){
 	int tamanho;
 	scanf("%d", &tamanho);
 
+	//Aloca (struct tp_pilha) para o proprio tamanho
 	struct tp_pilha *ptPilha;
 	ptPilha = (struct tp_pilha*) malloc(sizeof(struct tp_pilha));
 
