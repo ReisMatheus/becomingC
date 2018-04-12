@@ -64,12 +64,12 @@ void push(struct tp_pilha *p, int tamanho){
 			float preco;
 			scanf("%f", &preco);
 
+			p->topo++;
 
 			(p->info+i)->cod = cod;
 			strcpy((p->info+i)->nome, nome);
 			(p->info+i)->preco = preco;
 
-			p->topo++;
 
 			printf("\nAdicionado com sucesso\n");
 
