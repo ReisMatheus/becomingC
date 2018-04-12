@@ -4,18 +4,21 @@
 #include<stdio_ext.h>
 #define TAM 50
 
-struct tp_produto{//criação de uma struct tipo produto
+//Criação de uma struct tipo produto
+struct tp_produto{
 	int cod;
 	char nome[TAM];
 	float preco;
 };
 
-struct tp_pilha{//criação de uma struct tipo pilha
+//Criação de uma struct tipo pilha
+struct tp_pilha{
 	struct tp_produto *info;
 	int topo;
 };
 
-void cria(struct tp_pilha *p, int tamanho){//função que reserva memória para variáveis da struct
+//Função que reserva memória para variáveis da struct
+void cria(struct tp_pilha *p, int tamanho){
 	//tp_produto para cada posição da pilha
 	p->info=(struct tp_produto*)malloc(tamanho*sizeof(struct tp_produto));
 	p->topo = -1;
@@ -23,11 +26,13 @@ void cria(struct tp_pilha *p, int tamanho){//função que reserva memória para 
 
 //Retira um Elemento da Pilha
 void pop(struct tp_pilha *p){
-	//Se a Pilha estiver vazia, retorna String "Pilha Vazia"
+
+	//Se a Pilha estiver vazia mostra "Pilha Vazia"
 	if(p->topo == -1){
 		printf("Pilha Vazia\n");
 		return;
 	}
+	//Se a Pilha NAO estiver vazia, mostra "Elemento retirado com sucesso" e decrementa o valor do topo em 1
 	else{
 		p->topo--;
 		printf("Elemento retirado com sucesso\n");
@@ -37,10 +42,13 @@ void pop(struct tp_pilha *p){
 
 //Adiciona Elemento dentro da Pilha
 void push(struct tp_pilha *p, int tamanho){
+	//Se a Pilha estiver cheia, mostra "Pilha Cheia"
 	if(p->topo >= tamanho-1){
 		printf("Pilha cheia\n");
 		return;
 	}
+	/*Se a Pilha NAO estiver vazia, entra com um novo produto ate que a Pilha esteja cheia
+	ou ate que o usuario digite (0) */
 	else{
 		for(int i=0; i<=tamanho-1; i++){
 			
@@ -57,9 +65,9 @@ void push(struct tp_pilha *p, int tamanho){
 			scanf("%f", &preco);
 
 
-			p->info[p->topo].cod = cod;
-			strcpy(p->info[p->topo].nome, nome);
-			p->info[p->topo].preco = preco;
+			(p->info+i)->cod = cod;
+			strcpy((p->info+i)->nome, nome);
+			(p->info+i)->preco = preco;
 
 			p->topo++;
 
@@ -68,19 +76,25 @@ void push(struct tp_pilha *p, int tamanho){
 			if(p->topo>=tamanho-1){
 				break;
 			}
-			printf("(%d) para sair\n(0) para continuar\n", tamanho);
-			scanf("%d", &i);
+			//Controle de Saida via entrada de Usuario
+			int control;
+			printf("(1) para SAIR\n(0) para CONTINUAR\n");
+			scanf("%d", &control);
+			if(control)break;
 		}
 		return;	
 	}	
 }
 
-//Esvazia a Pilha por completo
+//Funcao que esvazia a Pilha por completo
 void emptyStack(struct tp_pilha *p){
+	//Se a Pilha estiver vazia mostra "Pilha Vazia"
 	if(p->topo == -1){
 		printf("Pilha Vazia\n");
 		return;
 	}
+	/*Se a Pilha NAO estiver cheia, mostra "Pilha esvaziada com sucesso" e altera
+	variavel(topo) para -1 (inicio da Pilha) */
 	else{
 		p->topo = -1;
 		printf("Pilha esvaziada com sucesso\n");
@@ -89,19 +103,19 @@ void emptyStack(struct tp_pilha *p){
 	
 }
 
-//Mostra todos os Elementos Validos da Pilha
+//Funcao que mostra todos os Elementos Validos da Pilha
 void showStack(struct tp_pilha *p, int tamanho){
-	//Verifica se Pilha esta vazia
+	//Verifica se Pilha esta vazia e mostra "Pilha Vazia"
 	if(p->topo == -1){
 		printf("Pilha Vazia\n");
 		return;
 	}
-
+	//Mostra todos os elementos VALIDOS da Pilha (0..topo)
 	int i;
-	for(i=p->topo; i>=0; i--){
-		printf("Codigo: %d\n", p->info[i-1].cod);
-		printf("Nome: %s\n", p->info[i-1].nome);
-		printf("Preco: %.2f\n", p->info[i-1].preco);
+	for(i=0; i<=p->topo; i++){
+		printf("\nCodigo: %d\n", (p->info+i)->cod);
+		printf("Nome: %s\n", (p->info+i)->nome);
+		printf("Preco: %.2f\n\n", (p->info+i)->preco);
 	}
 }
 
