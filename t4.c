@@ -4,6 +4,7 @@
 #include<stdio_ext.h>
 #define TAM 100
 
+//gitSublime
 typedef struct produto{
 	int codigo;
 	char nome[TAM];
