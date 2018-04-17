@@ -18,7 +18,7 @@ typedef struct nodo{
 
 void printLista(tp_nodo *ptNodo);
 tp_nodo * insereElemento(tp_nodo *ptNodo);
-void excluirElemento(tp_nodo *ptNodo);
+tp_nodo * excluirElemento(tp_nodo *ptNodo);
 tp_nodo * apagaLista(tp_nodo *ptNodo);
 
 
@@ -64,26 +64,32 @@ tp_nodo * insereElemento(tp_nodo *ptNodo){
 	}
 }
 
-void excluirElemento(tp_nodo *ptNodo){
+tp_nodo * excluirElemento(tp_nodo *ptNodo){
 	tp_nodo *f, *f1;
 	int buscaCodigo;
 
 	printf("Digite o Codigo do produto que deseja excluir\n");
 	scanf("%d", &buscaCodigo);
-	f = ptNodo;
-	f1 = ptNodo->prox;
+	f = NULL;
+	f1 = ptNodo;
 	while(f1 != NULL && f1->produto.codigo != buscaCodigo){
 		f = f1;
 		f1 = f1->prox;
 	}
-	if(f1 != NULL){
-		f->prox = f1->prox;
-		free(f1);
+	if(f1 == NULL){
+		printf("Produto nao foi encontrado\n");
+		return ptNodo;
+	}
+	if(f == NULL){
+		ptNodo = f1->prox;
 		printf("Produto exluido com sucesso\n");
 	}
 	else{
-		printf("Produto nao foi encontrado\n");
+		f->prox = f1->prox;
+		printf("Produto exluido com sucesso\n");
 	}
+	free(f1);
+	return ptNodo;
 }
 
 int main(){
@@ -98,11 +104,16 @@ int main(){
 				break;
 			}
 			case 2:{
-				excluirElemento(ponteiroNodo);
+				ponteiroNodo = excluirElemento(ponteiroNodo);
 				break;
 			}
 			case 3:{
-				printLista(ponteiroNodo);
+				if(ponteiroNodo == NULL){
+					printf("Lista Vazia\n");
+				}
+				else{
+					printLista(ponteiroNodo);
+				}
 				break;
 			}
 			case 0:{
