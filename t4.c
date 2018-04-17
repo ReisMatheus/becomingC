@@ -19,13 +19,13 @@ typedef struct nodo{
 
 void printLista(tp_nodo *ptNodo);
 tp_nodo * insereElemento(tp_nodo *ptNodo);
-void excluirElemento(tp_nodo *ptNodo);
+void excluirElemento(tp_nodo *ptNodo, int buscaCodigo);
 tp_nodo * apagaLista(tp_nodo *ptNodo);
 
 
 void printLista(tp_nodo *ptNodo){
 	if(ptNodo != NULL){
-		printf("Codigo: %d\nNome: %s\nPreco: %.2f\n", 
+		printf("Codigo: %d\nNome: %sPreco: %.2f\n", 
 				ptNodo->produto.codigo, ptNodo->produto.nome, ptNodo->produto.preco);
 		printLista(ptNodo->prox);
 	}
@@ -65,11 +65,29 @@ tp_nodo * insereElemento(tp_nodo *ptNodo){
 	}
 }
 
+void excluirElemento(tp_nodo *ptNodo, int buscaCodigo){
+	tp_nodo *f, *f1;
+	f = ptNodo;
+	f1 = ptNodo->prox;
+	while(f1 != NULL && f1->produto.codigo != buscaCodigo){
+		f = f1;
+		f1 = f1->prox;
+	}
+	if(f1 != NULL){
+		f->prox = f1->prox;
+		free(f1);
+	}
+}
+
 int main(){
 	tp_nodo *ponteiroNodo = NULL;
+
 	ponteiroNodo = insereElemento(ponteiroNodo);
 	ponteiroNodo = insereElemento(ponteiroNodo);
 	ponteiroNodo = insereElemento(ponteiroNodo);
+	printLista(ponteiroNodo);
+	excluirElemento(ponteiroNodo, 2);
+	printf("\nDepois\n\n");
 	printLista(ponteiroNodo);
 	return 0;
 
