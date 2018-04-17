@@ -19,7 +19,7 @@ typedef struct nodo{
 
 void printLista(tp_nodo *ptNodo);
 tp_nodo * insereElemento(tp_nodo *ptNodo);
-void excluirElemento(tp_nodo *ptNodo, int buscaCodigo);
+void excluirElemento(tp_nodo *ptNodo);
 tp_nodo * apagaLista(tp_nodo *ptNodo);
 
 
@@ -65,8 +65,12 @@ tp_nodo * insereElemento(tp_nodo *ptNodo){
 	}
 }
 
-void excluirElemento(tp_nodo *ptNodo, int buscaCodigo){
+void excluirElemento(tp_nodo *ptNodo){
 	tp_nodo *f, *f1;
+	int buscaCodigo;
+
+	printf("Digite o Codigo do produto que deseja excluir\n");
+	scanf("%d", &buscaCodigo);
 	f = ptNodo;
 	f1 = ptNodo->prox;
 	while(f1 != NULL && f1->produto.codigo != buscaCodigo){
@@ -76,19 +80,40 @@ void excluirElemento(tp_nodo *ptNodo, int buscaCodigo){
 	if(f1 != NULL){
 		f->prox = f1->prox;
 		free(f1);
+		printf("Produto exluido com sucesso\n");
+	}
+	else{
+		printf("Produto nao foi encontrado\n");
 	}
 }
 
 int main(){
 	tp_nodo *ponteiroNodo = NULL;
-
-	ponteiroNodo = insereElemento(ponteiroNodo);
-	ponteiroNodo = insereElemento(ponteiroNodo);
-	ponteiroNodo = insereElemento(ponteiroNodo);
-	printLista(ponteiroNodo);
-	excluirElemento(ponteiroNodo, 2);
-	printf("\nDepois\n\n");
-	printLista(ponteiroNodo);
+	int control = 1, opt;
+	while(control!=0){
+		printf("(1) para inserir produto na lista\n(2) Para excluir um elemento da lista\n(3) Para listar todos os elementos da lista\n(0) para sair do programa\n");
+		scanf("%d", &opt);
+		switch(opt){
+			case 1:{
+				ponteiroNodo = insereElemento(ponteiroNodo);
+				break;
+			}
+			case 2:{
+				excluirElemento(ponteiroNodo);
+				break;
+			}
+			case 3:{
+				printLista(ponteiroNodo);
+				break;
+			}
+			case 0:{
+				control = 0;
+				break;
+			}
+			default:{
+				printf("Opcao Invalida\n");
+			}
+		}
+	}
 	return 0;
-
 }
