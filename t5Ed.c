@@ -90,6 +90,7 @@ node * insertAtTail(node *tailNode, list *setList){
 	newNode->next = NULL;
 	newNode->prev = tailNode;
 	if(tailNode == NULL){
+		tailNode = (node*)malloc(sizeof(node));//Aloca Nodo, pois o mesmo eh NULL
 		tailNode = newNode;
 		tailNode->next = NULL;
 		setList->last = tailNode;
@@ -100,7 +101,6 @@ node * insertAtTail(node *tailNode, list *setList){
 	while(temp->next != NULL){
 		temp = temp->next;
 	}
-	tailNode = (node*) malloc(sizeof(node));
 	temp->next = newNode;
 	newNode->prev = temp;
 	setList->last = newNode;
