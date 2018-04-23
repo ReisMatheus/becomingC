@@ -27,7 +27,49 @@ node * insertAtHead(node *headNode, list *setList);
 node * deleteNode(node *delNode, list *setList);
 int setUpList(node *checkNode);
 void printList(node *displayList);
+//Fim dos Headers
 
+int main(){
+	node *pointerNode = NULL;
+	list *pointerList = NULL;
+	int control = 1, opt;
+	while(control!=0){
+		printf("(1) para inserir produto na cauda da lista\n(2) para inserir produto na cabeca da lista\n(3) Para excluir um elemento da lista\n(4) Para listar todos os elementos da lista\n(0) para sair do programa\n");
+		scanf("%d", &opt);
+		switch(opt){
+			case 1:{
+				pointerNode = insertAtTail(pointerNode, pointerList);
+				break;
+			}
+			case 2:{
+				pointerNode = insertAtHead(pointerNode, pointerList);
+				break;
+			}
+			case 3:{
+				pointerNode = deleteNode(pointerNode, pointerList);
+				break;
+			}
+			case 4:{
+				if(pointerNode == NULL){
+					printf("Lista Vazia\n");
+				}
+				else{
+					printList(pointerNode);
+				}
+				break;
+			}
+			case 0:{
+				control = 0;
+				break;
+			}
+			default:{
+				printf("Opcao Invalida\n");
+			}
+		}
+	}
+	return 0;
+}
+//Implementacao das Funcoes
 produto fillNode(){
 	produto preencheNodo;
 	printf("Codigo: \n");
@@ -121,43 +163,4 @@ void printList(node *displayList){
 		printList(displayList->next);
 	}
 }
-int main(){
-	node *pointerNode = NULL;
-	list *pointerList = NULL;
-	int control = 1, opt;
-	while(control!=0){
-		printf("(1) para inserir produto na cauda da lista\n(2) para inserir produto na cabeca da lista\n(3) Para excluir um elemento da lista\n(4) Para listar todos os elementos da lista\n(0) para sair do programa\n");
-		scanf("%d", &opt);
-		switch(opt){
-			case 1:{
-				pointerNode = insertAtTail(pointerNode, pointerList);
-				break;
-			}
-			case 2:{
-				pointerNode = insertAtHead(pointerNode, pointerList);
-				break;
-			}
-			case 3:{
-				pointerNode = deleteNode(pointerNode, pointerList);
-				break;
-			}
-			case 4:{
-				if(pointerNode == NULL){
-					printf("Lista Vazia\n");
-				}
-				else{
-					printList(pointerNode);
-				}
-				break;
-			}
-			case 0:{
-				control = 0;
-				break;
-			}
-			default:{
-				printf("Opcao Invalida\n");
-			}
-		}
-	}
-	return 0;
-}
+//Fim da implementacao das funcoes
