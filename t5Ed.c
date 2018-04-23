@@ -26,8 +26,9 @@ produto fillNode();
 node * insertAtTail(node *tailNode, list *setList);
 node * insertAtHead(node *headNode, list *setList);
 node * deleteNode(node *delNode, list *setList);
-int setUpList(node *checkNode);
-void printList(node *displayList);
+int checkList(node *checkNode);
+void printListFoward(node *fwdList);
+void printListBackwards(node *bkwList);
 //Fim dos Headers
 
 int main(){
@@ -35,7 +36,7 @@ int main(){
 	list *pointerList = (list*)malloc(sizeof(list));
 	int control = 1, opt;
 	while(control!=0){
-		printf("(1) para inserir produto na cauda da lista\n(2) para inserir produto na cabeca da lista\n(3) Para excluir um elemento da lista\n(4) Para listar todos os elementos da lista\n(0) para sair do programa\n");
+		printf("\n\n(1) para inserir produto na cauda da lista\n(2) para inserir produto na cabeca da lista\n(3) Para excluir um elemento da lista\n(4) Para listar elementos\n(5) Para listar elementos inversamente\n\t(0) para sair do programa\n");
 		scanf("%d", &opt);
 		switch(opt){
 			case 1:{
@@ -51,11 +52,22 @@ int main(){
 				break;
 			}
 			case 4:{
-				if(pointerNode == NULL){
-					printf("Lista Vazia\n");
+				if(checkList(pointerNode)){
+					printf("\t\tLista Vazia\n\n");
 				}
 				else{
-					printList(pointerNode);
+					printf("Elemento cabeca (codigo): %d\nElemento cauda (codigo): %d\n", pointerList->first->produto.codigo, pointerList->last->produto.codigo);
+					printListFoward(pointerNode);
+				}
+				break;
+			}
+			case 5:{
+				if(checkList(pointerNode)){
+					printf("\t\tLista vazia\n\n");
+				}
+				else{
+					printf("Elemento cabeca (codigo): %d\nElemento cauda (codigo): %d\n", pointerList->first->produto.codigo, pointerList->last->produto.codigo);
+					printListBackwards(pointerNode);
 				}
 				break;
 			}
@@ -64,7 +76,7 @@ int main(){
 				break;
 			}
 			default:{
-				printf("Opcao Invalida\n");
+				printf("Opcao Invalida\n\n");
 			}
 		}
 	}
@@ -94,6 +106,7 @@ node * insertAtTail(node *tailNode, list *setList){
 		tailNode = newNode;
 		tailNode->next = NULL;
 		setList->last = tailNode;
+		setList->first = tailNode;
 		setList->nItens = 1;
 		setList->nItens++;
 		return tailNode;
@@ -122,8 +135,8 @@ node * insertAtHead(node *headNode, list *setList){
 }
 
 node * deleteNode(node *delNode, list *setList){
-	if(setUpList(delNode)){
-		printf("Lista vazia\n");
+	if(checkList(delNode)){
+		printf("\t\tLista vazia\n\n");
 		return delNode;
 	}
 	node *realNode = NULL, *tempNode = delNode;
@@ -150,7 +163,7 @@ node * deleteNode(node *delNode, list *setList){
 	return delNode;
 }
 
-int setUpList(node *checkNode){
+int checkList(node *checkNode){
 	if(checkNode == NULL){
 		return 1;
 	} 
@@ -159,11 +172,22 @@ int setUpList(node *checkNode){
 	}
 }
 
-void printList(node *displayList){
-	if(displayList != NULL){
+void printListFoward(node *fwdList){
+	if(fwdList != NULL){
 		printf("Codigo: %d\nNome: %sPreco: %.2f\n", 
-					displayList->produto.codigo, displayList->produto.nome, displayList->produto.preco);
-		printList(displayList->next);
+					fwdList->produto.codigo, fwdList->produto.nome, fwdList->produto.preco);
+		printListFoward(fwdList->next);
+	}
+}
+
+void printListBackwards(node *bkwList){
+	while(bkwList->next != NULL){
+		bkwList = bkwList->next;
+	}
+	while(bkwList != NULL){
+		printf("Codigo: %d\nNome: %sPreco: %.2f\n", 
+					bkwList->produto.codigo, bkwList->produto.nome, bkwList->produto.preco);
+		bkwList = bkwList->prev;	
 	}
 }
 //Fim da implementacao das funcoes
