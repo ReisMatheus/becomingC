@@ -56,7 +56,7 @@ int main(){
 					printf("\t\tLista Vazia\n\n");
 				}
 				else{
-					printf("Elemento cabeca (codigo): %d\nElemento cauda (codigo): %d\n", pointerList->first->produto.codigo, pointerList->last->produto.codigo);
+					printf("Elemento cabeca (codigo): %d\nElemento cauda (codigo): %d\nQtd elementos: %d\n", pointerList->first->produto.codigo, pointerList->last->produto.codigo, pointerList->nItens);
 					printListFoward(pointerNode);
 				}
 				break;
@@ -66,7 +66,7 @@ int main(){
 					printf("\t\tLista vazia\n\n");
 				}
 				else{
-					printf("Elemento cabeca (codigo): %d\nElemento cauda (codigo): %d\n", pointerList->first->produto.codigo, pointerList->last->produto.codigo);
+					printf("Elemento cabeca (codigo): %d\nElemento cauda (codigo): %d\nQtd elementos: %d\n", pointerList->first->produto.codigo, pointerList->last->produto.codigo, pointerList->nItens);
 					printListBackwards(pointerNode);
 				}
 				break;
@@ -107,7 +107,7 @@ node * insertAtTail(node *tailNode, list *setList){
 		tailNode->next = NULL;
 		setList->last = tailNode;
 		setList->first = tailNode;
-		setList->nItens = 1;
+		setList->nItens = 0;
 		setList->nItens++;
 		return tailNode;
 	}
@@ -126,11 +126,20 @@ node * insertAtHead(node *headNode, list *setList){
 	newNode->produto = fillNode();
 	newNode->next = headNode;
 	newNode->prev = NULL;
-	if(headNode != NULL){
-		headNode->prev = newNode;
+	if(headNode == NULL){
+		headNode = (node*)malloc(sizeof(node));//Aloca Nodo, pois o mesmo eh NULL
+		headNode = newNode;
+		headNode->prev = NULL;
 		setList->first = newNode;
-		return newNode;
+		setList->last = newNode;
+		setList->nItens = 0;
+		setList->nItens++;
+		return headNode;
 	}
+	//headNode->prev = newNode;
+	newNode->next = headNode;
+	setList->first = newNode;
+	setList->nItens++;
 	return newNode;
 }
 
@@ -153,6 +162,7 @@ node * deleteNode(node *delNode, list *setList){
 	}
 	if(realNode == NULL){
 		delNode = tempNode->next;
+		setList->first = delNode;
 		printf("Produto excluido com sucesso\n");
 	}
 	else{
