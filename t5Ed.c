@@ -3,6 +3,7 @@
 #include<string.h>
 #include<stdio_ext.h>
 #define TAM 20
+
 typedef struct produto{
 	int codigo;
 	char nome[TAM];
@@ -31,7 +32,7 @@ void printList(node *displayList);
 
 int main(){
 	node *pointerNode = NULL;
-	list *pointerList = NULL;
+	list *pointerList = (list*)malloc(sizeof(list));
 	int control = 1, opt;
 	while(control!=0){
 		printf("(1) para inserir produto na cauda da lista\n(2) para inserir produto na cabeca da lista\n(3) Para excluir um elemento da lista\n(4) Para listar todos os elementos da lista\n(0) para sair do programa\n");
@@ -88,21 +89,23 @@ node * insertAtTail(node *tailNode, list *setList){
 	newNode->produto = fillNode();
 	newNode->next = NULL;
 	newNode->prev = tailNode;
-	if(tailNode != NULL){
-		tailNode->next = newNode;
-		setList->last = newNode;
-		setList->nItens = 0;
+	if(tailNode == NULL){
+		tailNode = newNode;
+		tailNode->next = NULL;
+		setList->last = tailNode;
+		setList->nItens = 1;
 		setList->nItens++;
 		return tailNode;
 	}
 	while(temp->next != NULL){
 		temp = temp->next;
 	}
+	tailNode = (node*) malloc(sizeof(node));
 	temp->next = newNode;
 	newNode->prev = temp;
 	setList->last = newNode;
 	setList->nItens++;
-	return newNode;
+	return tailNode;
 }
 
 node * insertAtHead(node *headNode, list *setList){
@@ -111,7 +114,7 @@ node * insertAtHead(node *headNode, list *setList){
 	newNode->next = headNode;
 	newNode->prev = NULL;
 	if(headNode != NULL){
-		headNode->prev = headNode;
+		headNode->prev = newNode;
 		setList->first = newNode;
 		return newNode;
 	}
@@ -157,8 +160,8 @@ int setUpList(node *checkNode){
 }
 
 void printList(node *displayList){
-	while(displayList != NULL){
-		printf("Codigo: %d\nNome: %s\nPreco: %.2f\n", 
+	if(displayList != NULL){
+		printf("Codigo: %d\nNome: %sPreco: %.2f\n", 
 					displayList->produto.codigo, displayList->produto.nome, displayList->produto.preco);
 		printList(displayList->next);
 	}
