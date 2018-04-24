@@ -136,7 +136,7 @@ node * insertAtHead(node *headNode, list *setList){
 		setList->nItens++;
 		return headNode;
 	}
-	//headNode->prev = newNode;
+	headNode->prev = newNode;
 	newNode->next = headNode;
 	setList->first = newNode;
 	setList->nItens++;
@@ -170,6 +170,7 @@ node * deleteNode(node *delNode, list *setList){
 		printf("Produto excluido com sucesso\n");	
 	}
 	free(tempNode);
+	setList->nItens--;
 	return delNode;
 }
 
@@ -191,13 +192,14 @@ void printListFoward(node *fwdList){
 }
 
 void printListBackwards(node *bkwList){
-	while(bkwList->next != NULL){
-		bkwList = bkwList->next;
+	node *aux = bkwList;
+	while(aux->next != NULL){
+		aux = aux->next;
 	}
-	while(bkwList != NULL){
+	while(aux != NULL){
 		printf("Codigo: %d\nNome: %sPreco: %.2f\n", 
-					bkwList->produto.codigo, bkwList->produto.nome, bkwList->produto.preco);
-		bkwList = bkwList->prev;	
+					aux->produto.codigo, aux->produto.nome, aux->produto.preco);
+		aux = aux->prev;	
 	}
 }
 //Fim da implementacao das funcoes
