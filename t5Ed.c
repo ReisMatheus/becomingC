@@ -167,6 +167,9 @@ node * deleteNode(node *delNode, list *setList){
 	}
 	else{
 		realNode->next = tempNode->next;
+		if(realNode->next == NULL){//Se o nodo exluido for o ultimo, o anterior se torna o ultimo.
+			setList->last = realNode;
+		}
 		printf("Produto excluido com sucesso\n");	
 	}
 	free(tempNode);
@@ -192,14 +195,13 @@ void printListFoward(node *fwdList){
 }
 
 void printListBackwards(node *bkwList){
-	node *aux = bkwList;
-	while(aux->next != NULL){
-		aux = aux->next;
+	while(bkwList->next != NULL){
+		bkwList = bkwList->next;
 	}
-	while(aux != NULL){
+	while(bkwList != NULL){
 		printf("Codigo: %d\nNome: %sPreco: %.2f\n", 
-					aux->produto.codigo, aux->produto.nome, aux->produto.preco);
-		aux = aux->prev;	
+					bkwList->produto.codigo, bkwList->produto.nome, bkwList->produto.preco);
+		bkwList = bkwList->prev;	
 	}
 }
 //Fim da implementacao das funcoes
