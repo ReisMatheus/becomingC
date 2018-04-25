@@ -166,7 +166,9 @@ node * deleteNode(node *delNode, list *setList){
 		printf("Produto excluido com sucesso\n");
 	}
 	else{
+		node *aux = tempNode->next;
 		realNode->next = tempNode->next;
+		aux->prev = realNode;
 		if(realNode->next == NULL){//Se o nodo exluido for o ultimo, o anterior se torna o ultimo.
 			setList->last = realNode;
 		}
