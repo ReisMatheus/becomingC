@@ -160,18 +160,27 @@ node * deleteNode(node *delNode, list *setList){
 		printf("Produto nao encontrado\n");
 		return delNode;
 	}
+	//Deleta primeiro elemento
 	if(realNode == NULL){
 		delNode = tempNode->next;
+		delNode->prev = NULL;
 		setList->first = delNode;
 		printf("Produto excluido com sucesso\n");
+		free(tempNode);
+		setList->nItens--;
+		return delNode;
 	}
+	//Deleta ultimo elemento
+	if(tempNode->next == NULL){
+		realNode->next = NULL;
+		setList->last = realNode;
+		printf("Produto excluido com sucesso\n");
+	}
+	//Deleta elemento no meio da lista
 	else{
 		node *aux = tempNode->next;
 		realNode->next = tempNode->next;
 		aux->prev = realNode;
-		if(realNode->next == NULL){//Se o nodo exluido for o ultimo, o anterior se torna o ultimo.
-			setList->last = realNode;
-		}
 		printf("Produto excluido com sucesso\n");	
 	}
 	free(tempNode);
