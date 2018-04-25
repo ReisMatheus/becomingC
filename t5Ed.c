@@ -63,7 +63,7 @@ int main(){
 			}
 			case 5:{
 				if(checkList(pointerNode)){
-					printf("\t\tLista vazia\n\n");
+					printf("\t\tLista Vazia\n\n");
 				}
 				else{
 					printf("Elemento cabeca (codigo): %d\nElemento cauda (codigo): %d\nQtd elementos: %d\n", pointerList->first->produto.codigo, pointerList->last->produto.codigo, pointerList->nItens);
