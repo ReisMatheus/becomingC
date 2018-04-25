@@ -3,7 +3,7 @@
 #include<string.h>
 #include<stdio_ext.h>
 #define TAM 20
-//sublimetxt
+
 typedef struct produto{
 	int codigo;
 	char nome[TAM];
