@@ -162,6 +162,11 @@ node * deleteNode(node *delNode, list *setList){
 	}
 	//Deleta primeiro elemento
 	if(realNode == NULL){
+		if(tempNode->next == NULL){
+			free(delNode);
+			printf("Produto excluido com sucesso\n");
+			return NULL;
+		}
 		delNode = tempNode->next;
 		delNode->prev = NULL;
 		setList->first = delNode;
