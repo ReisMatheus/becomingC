@@ -208,18 +208,10 @@ node *mergeSort(node *head, list *setList){
     if (head == NULL || head->next == NULL)
         return head;
     node *second = split(head);
- 
-    // Recur for left and right halves
+    // Recursao para metade esquerda e direita
     head = mergeSort(head, setList);
     second = mergeSort(second, setList);
- 
-    // Merge the two sorted halves
-    /*node *aux = head;
-	while(aux != NULL){
-		if(aux->prev == NULL) setList->first = aux;
-		if(aux->next == NULL) setList->last =aux;
-		aux = aux->next;
-	}*/
+    // merge as duas metades sortidas;
     return merge(head,second);
 }
 node *split(node *head){
