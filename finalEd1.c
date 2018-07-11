@@ -165,12 +165,6 @@ node * selectionSort(node *headRef, list *setList){
 	}
     if(min != headRef)	auxSelection(&headRef, headRef, min, beforeMin);
     headRef->next = selectionSort(headRef->next, setList);
-    /*node *aux = headRef;
-    setList->first = aux;
-	while(aux != NULL){
-		if(aux->next == NULL) setList->last =aux;
-		aux = aux->next;
-	}*/
     return headRef;
 }
 void auxSelection(node **headRef, node *current, node *min, node *beforeMin){
