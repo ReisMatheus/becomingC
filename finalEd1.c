@@ -107,20 +107,18 @@ produto fillNode(){
 }
 void insertionSort(node **headRef){
 	node *sorted = NULL; //Nova lista que recebera os nodos de forma ordenada
-	/*itera pela lista recebida 
-	e insere em sorted;
-	*/
+	//itera pela lista recebida 
+	//e insere em sorted;
+	
 	node *current = *headRef;
 	while(current != NULL){
 		//guarda nodo seguinte para proxima iteracao
 		node *next = current->next;
-		/*remove todos os ponteiros
-		e cria um novo nodo(current) para insercao
-		*/
+		//remove todos os ponteiros
+		//e cria um novo nodo(current) para insercao
 		current->prev = current->next = NULL;
 		//insere current dentro da lista ordenada(sorted)
 		auxInsert(&sorted, current);
-		//update current
 		current = next;
 	}
 	*headRef = sorted;
@@ -133,7 +131,6 @@ void auxInsert(node **headRef, node *newNode){
 	}
 	//se o nodo a ser inserido for primeiro da lista
 	else if((*headRef)->produto.codigo >= newNode->produto.codigo){
-		//setList->first = newNode;
 		newNode->next = *headRef;
 		newNode->next->prev = newNode;
 		*headRef = newNode;
@@ -177,7 +174,6 @@ void auxSelection(node **headRef, node *current, node *min, node *beforeMin){
     min->next = current->next;
     min->next->prev = min;
     current->next = temp;
-    //*headRef = min;
 }
 node *merge(node *first, node *second){
     // se a primeira lista estiver vazia
@@ -204,7 +200,7 @@ node *mergeSort(node *head){
     // Recursao para metades esquerda e direita
     head = mergeSort(head);
     second = mergeSort(second);
-    // merge nas duas metades sortidas;
+    // merge nas duas metades;
     return merge(head,second);
 }
 node *split(node *head){
