@@ -24,13 +24,13 @@ typedef struct lista{
 
 produto fillNode();
 node * push(node *headNode, list *setList);
-void insertionSort(node **headRef, list *setList);
-void auxInsert(node **headRef, node *newNode, list *setList);
-node * selectionSort(node *headRef, list *setList);
+void insertionSort(node **headRef);
+void auxInsert(node **headRef, node *newNode);
+node * selectionSort(node *headRef);
 void auxSelection(node **headRef, node *current, node *min, node *beforeMin);
 node *merge(node *first, node *second);
 node *split(node *head);
-node *mergeSort(node *head, list *setList);
+node *mergeSort(node *head);
 node * deleteNode(node *delNode, list *setList);
 int checkList(node *checkNode);
 void printList(node *fwdList);
@@ -60,7 +60,7 @@ int main(){
 					node *aux = pointerNode;
 					while(aux != NULL){
 						if(aux->prev == NULL) pointerList->first = aux;
-						if(aux->next == NULL) pointerList->last =aux;
+						if(aux->next == NULL) pointerList->last = aux;
 						aux = aux->next;
 					}
 					printf("Elemento cabeca (codigo): %d\nElemento cauda (codigo): %d\nQtd elementos: %d\n", pointerList->first->produto.codigo, pointerList->last->produto.codigo, pointerList->nItens);
@@ -69,15 +69,15 @@ int main(){
 				break;
 			}
 			case 4:{
-				insertionSort(&pointerNode, pointerList);
+				insertionSort(&pointerNode);
 				break;
 			}
 			case 5:{
-				pointerNode = selectionSort(pointerNode, pointerList);
+				pointerNode = selectionSort(pointerNode);
 				break;
 			}
 			case 6:{
-				pointerNode = mergeSort(pointerNode, pointerList);
+				pointerNode = mergeSort(pointerNode);
 				break;
 			}
 			case 0:{
@@ -89,6 +89,8 @@ int main(){
 			}
 		}
 	}
+	free(pointerNode);
+	free(pointerList);
 	return 0;
 }
 //Implementacao das Funcoes
@@ -103,12 +105,11 @@ produto fillNode(){
 	scanf("%f", &preencheNodo.preco);
 	return preencheNodo;
 }
-void insertionSort(node **headRef, list *setList){
-	node *sorted = NULL; //Nova lista que recebe os nodos de forma sortida
+void insertionSort(node **headRef){
+	node *sorted = NULL; //Nova lista que recebera os nodos de forma ordenada
 	/*itera pela lista recebida 
 	e insere em sorted;
 	*/
-	printf("size headRef %lo\n", sizeof(headRef));
 	node *current = *headRef;
 	while(current != NULL){
 		//guarda nodo seguinte para proxima iteracao
@@ -117,22 +118,22 @@ void insertionSort(node **headRef, list *setList){
 		e cria um novo nodo(current) para insercao
 		*/
 		current->prev = current->next = NULL;
-		//insere current dentro da lista sortida(sorted)
-		auxInsert(&sorted, current, setList);
+		//insere current dentro da lista ordenada(sorted)
+		auxInsert(&sorted, current);
 		//update current
 		current = next;
 	}
 	*headRef = sorted;
 }
-void auxInsert(node **headRef, node *newNode, list *setList){
+void auxInsert(node **headRef, node *newNode){
 	node *current;
-	//se a lista estiver vazia;
+	//se a lista ordenada estiver vazia;
 	if(*headRef == NULL){
 		*headRef = newNode;
 	}
 	//se o nodo a ser inserido for primeiro da lista
 	else if((*headRef)->produto.codigo >= newNode->produto.codigo){
-		setList->first = newNode;
+		//setList->first = newNode;
 		newNode->next = *headRef;
 		newNode->next->prev = newNode;
 		*headRef = newNode;
@@ -152,66 +153,63 @@ void auxInsert(node **headRef, node *newNode, list *setList){
 		current->prev = current;
 	}
 }
-node * selectionSort(node *headRef, list *setList){
+node * selectionSort(node *headRef){
     if (headRef->next == NULL)	return headRef;
     node * min = headRef;
     node * beforeMin = NULL;
-    node * ptr;
-    for(ptr = headRef; ptr->next != NULL; ptr = ptr->next){
-	   	if (ptr->next->produto.codigo < min->produto.codigo){
-	       min = ptr->next;
-	       beforeMin = ptr;
+    node * aux;
+    for(aux = headRef; aux->next != NULL; aux = aux->next){
+	   	if (aux->next->produto.codigo < min->produto.codigo){
+	       min = aux->next;
+	       beforeMin = aux;
 	    }
 	}
     if(min != headRef)	auxSelection(&headRef, headRef, min, beforeMin);
-    headRef->next = selectionSort(headRef->next, setList);
+    headRef->next = selectionSort(headRef->next);
     return headRef;
 }
 void auxSelection(node **headRef, node *current, node *min, node *beforeMin){
 	//nova cabeca
-	//node *aux;
     *headRef = min;
     //reajusta ponteiros
     beforeMin->next = current;
     node *temp = min->next;
     min->next = current->next;
+    min->next->prev = min;
     current->next = temp;
+    //*headRef = min;
 }
 node *merge(node *first, node *second){
-    // se a primeira lista for vazia
+    // se a primeira lista estiver vazia
     if (first == NULL) return second;
-    // se a segunda lsita for vazia
+    // se a segunda lista estiver vazia
     if (second == NULL) return first;
     // busca o menor valor
-    if (first->produto.codigo < second->produto.codigo)
-    {
+    if (first->produto.codigo < second->produto.codigo){
         first->next = merge(first->next,second);
         first->next->prev = first;
         first->prev = NULL;
         return first;
     }
-    else
-    {
+    else{
         second->next = merge(first,second->next);
         second->next->prev = second;
         second->prev = NULL;
         return second;
     }
 }
-node *mergeSort(node *head, list *setList){
-    if (head == NULL || head->next == NULL)
-        return head;
+node *mergeSort(node *head){
+    if (head == NULL || head->next == NULL) return head;
     node *second = split(head);
-    // Recursao para metade esquerda e direita
-    head = mergeSort(head, setList);
-    second = mergeSort(second, setList);
-    // merge as duas metades sortidas;
+    // Recursao para metades esquerda e direita
+    head = mergeSort(head);
+    second = mergeSort(second);
+    // merge nas duas metades sortidas;
     return merge(head,second);
 }
 node *split(node *head){
     node *fast = head,*slow = head;
-    while (fast->next && fast->next->next)
-    {
+    while (fast->next && fast->next->next){
         fast = fast->next->next;
         slow = slow->next;
     }
