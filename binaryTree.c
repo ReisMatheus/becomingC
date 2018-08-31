@@ -14,6 +14,8 @@ typedef struct BinaryTree {
 
 NO * deleteNode(NO *root, int key);
 NO * minTreeValue(NO *root);
+void preOrder(NO *root);
+void postOrder(NO *root);
 
 // Uma função para criar um novo nó na Árvore de Busca Binária 
 NO *newNode(int item) {
@@ -73,6 +75,10 @@ void main(void)
     // Imprimir o percurso inOrder da Árvore de Busca Binária
     printf("\nPercurso Em Ordem: ");
     inOrder(root);
+    printf("\nPRE-ORDER: \n");
+    preOrder(root);
+    printf("\nPOST-ORDER: \n");
+    postOrder(root);
     printf("\n");
     while(1){
         int key;
@@ -90,7 +96,7 @@ NO * deleteNode(NO * root, int key){
     if(key < root->key) root->left = deleteNode(root->left, key);
     //If key's value is bigger than tree's root
     else if(key > root->key) root->right = deleteNode(root->right, key);
-    //If key's same as root's key, delete actual root and change it
+    //If key's same as root's key, delete actual root
     else{
         //Node with a single child or none
         if(root->left == NULL){
@@ -114,8 +120,23 @@ NO * deleteNode(NO * root, int key){
 }
 NO * minTreeValue(NO *given){
     NO * current = given;
-    while(current->left!= NULL){
+    while(current->left != NULL){
         current = current->left;
     }
     return current;
+}
+void postOrder(NO *root){
+    if(root != NULL){
+        postOrder(root->left); //traverse till has a leaf on the left edge
+        postOrder(root->right); //traverse when left recursion has come to an end
+        printf("%d ", root->key); //print current node
+    }
+}
+
+void preOrder(NO *root){
+    if(root != NULL){
+        printf("%d ", root->key); //print current node and head first, since it's pre order 
+        preOrder(root->left); //traverse to the left node till finds a leaf
+        preOrder(root->right); //traverse when left recursion has come to an end
+    }
 }
